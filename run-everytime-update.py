@@ -14,8 +14,7 @@ major_update = update_adw()
 
 if major_update == True:
 	print("Running major update...")
-	plattentestsApi = PlattentestsApi()
-	playlist = plattentestsApi.getHighlightsFromLatestReview()
+	playlist = PlattentestsApi.getHighlightsFromLatestReview()
 	pp.pprint(playlist)
 
 	## Save playlist
@@ -30,7 +29,7 @@ if major_update == True:
 
 	## Create a new playlist on Spotify and add ID to archive
 	playlist_id = create_playlist(playlist_name)
-	add_to_playlist_archive(playlist_id, filename)
+	#add_to_playlist_archive(playlist_id, filename)
 
 	## Add tracks to new playlist
 	add_tracks_to_playlist(playlist_id, track_IDs)

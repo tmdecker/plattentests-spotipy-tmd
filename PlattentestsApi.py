@@ -2,10 +2,24 @@ import requests
 import constants
 
 class PlattentestsApi:
-    def getHighlightsFromLatestReview(self):
-        response = requests.get(constants.plattentests_api_endpoint)
+
+    @staticmethod
+    def getHighlightsFromLatestReview():
+        response = requests.get(constants.plattentests_review_api_endpoint)
         reviews = response.json()
-        trackHighlights = ''
+        trackHighlights = []
         for r in reviews:
-            trackHighlights = trackHighlights + "\n".join(str(r["band"] + " - " + th) for th in r["trackHighlights"])
+            for th in r["trackHighlights"]:
+                if th == "-":
+                    continue
+                trackHighlights.append(str(r["band"] + " - " + th))
         return trackHighlights
+    
+    @staticmethod
+    def getAlbumOfTheWeek():
+        response = requests.get(constants.plattentests_review_api_endpoint)
+        reviews = response.json()
+        for r in reviews:
+            if r["albumOfTheWeek"] != "0000-00-00":
+                return r["band"] + " - " + r["title"]
+        raise Exception('No album of the week found')
