@@ -1,9 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 import pickle
-from parser_ import *
-from spotify_api import *
-from tools import *
+from parser_ import get_releases, sort_by_score, get_names, get_playlist
+from spotify_api import get_IDs, create_playlist, add_tracks_to_playlist, update_playlist, read_playlist
+from tools import update_adw, get_weekly_filename_and_ID
+import constants
 import os.path
 import pprint as pp
 
@@ -30,13 +31,14 @@ if major_update == True:
 
 	## Create a new playlist on Spotify and add ID to archive
 	playlist_id = create_playlist(playlist_name)
-	add_to_playlist_archive(playlist_id, filename)
+	# FIXME stefan: not working when file doesn't exist
+	# add_to_playlist_archive(playlist_id, filename)
 
 	## Add tracks to new playlist
 	add_tracks_to_playlist(playlist_id, track_IDs)
 
 	#Update playlist (master id: '00zZ5RKsSREcklyEy0tVYU')
-	update_playlist("00zZ5RKsSREcklyEy0tVYU", track_IDs)
+	update_playlist(constants.playlist_id, track_IDs)
 
 ## Minor update: don't parse for new highlight songs,
 # just search on spotify and update the playlist for newly released songs

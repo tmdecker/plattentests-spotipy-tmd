@@ -3,7 +3,7 @@ import pprint as pp
 from bs4 import BeautifulSoup
 import requests
 import pickle
-from parser_ import *
+from parser_ import get_adw
 import os.path
 from collections import OrderedDict
 

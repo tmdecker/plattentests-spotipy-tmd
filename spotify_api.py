@@ -3,16 +3,16 @@ import spotipy
 import spotipy.util as util
 import pprint as pp
 from datetime import datetime
-from tools import *
+from tools import trailing_space
 from termcolor import colored
 import json
+import constants
 
 
 def get_IDs(playlist):
     print("Searching spotify for tracks ...")
 
-    client_credentials_manager = SpotifyClientCredentials(client_id="",  # placeholder value here
-                                                          client_secret="")  # placeholder value here
+    client_credentials_manager = SpotifyClientCredentials(constants.client_id,  constants.client_secret) 
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
     IDs = []
@@ -73,21 +73,16 @@ def get_IDs(playlist):
 
 def create_playlist(playlist_name):
     '''Creates a new playlist for a user'''
-    username = ''  # placeholder value here
-    scope = 'user-follow-modify playlist-modify'
-    client_id = ''  # placeholder value here
-    client_secret = ''  # placeholder value here
-    redirect_uri = ''  # placeholder value here
 
-    token = util.prompt_for_user_token(username, scope, client_id, client_secret, redirect_uri=redirect_uri)
+    token = util.prompt_for_user_token(constants.username, constants.scope, constants.client_id, constants.client_secret, redirect_uri=constants.redirect_uri)
 
     if token:
         sp = spotipy.Spotify(auth=token)
         sp.trace = False
-        playlists = sp.user_playlist_create(username, playlist_name)
+        playlists = sp.user_playlist_create(constants.username, playlist_name)
 
     else:
-        print("Can't get token for", username)
+        print("Can't get token for", constants.username)
         
     playlist_id = playlists["id"]
     print("")
@@ -99,21 +94,15 @@ def add_tracks_to_playlist(playlist_id, track_ids):
 
     print("Adding tracks to playlist %s on spotify." % playlist_id)
 
-    username = ''  # placeholder value here
-    scope = 'user-follow-modify playlist-modify'
-    client_id = ''  # placeholder value here
-    client_secret = ''  # placeholder value here
-    redirect_uri = ''  # placeholder value here
-
-    token = util.prompt_for_user_token(username, scope, client_id, client_secret, redirect_uri=redirect_uri)
+    token = util.prompt_for_user_token(constants.username, constants.scope, constants.client_id, constants.client_secret, redirect_uri=constants.redirect_uri)
 
     if token:
         sp = spotipy.Spotify(auth=token)
         sp.trace = False
-        results = sp.user_playlist_add_tracks(username, playlist_id, track_ids)
+        results = sp.user_playlist_add_tracks(constants.username, playlist_id, track_ids)
         print(results)
     else:
-        print("Can't get token for", username)
+        print("Can't get token for", constants.username)
     print("")
 
 
@@ -122,28 +111,22 @@ def update_playlist(playlist_id, track_ids):
 
     print("Updating playlist %s on spotify." % playlist_id)
 
-    username = ''  # placeholder value here
-    scope = 'user-follow-modify playlist-modify'
-    client_id = ''  # placeholder value here
-    client_secret = ''  # placeholder value here
-    redirect_uri = ''  # placeholder value here
-
-    token = util.prompt_for_user_token(username, scope, client_id, client_secret, redirect_uri=redirect_uri)
+    token = util.prompt_for_user_token(constants.username, constants.scope, constants.client_id, constants.client_secret, redirect_uri=constants.redirect_uri)
 
     if token:
         sp = spotipy.Spotify(auth=token)
         sp.trace = False
-        results = sp.user_playlist_replace_tracks(username, playlist_id, track_ids)  # update existing playlist
+        results = sp.user_playlist_replace_tracks(constants.username, playlist_id, track_ids)  # update existing playlist
         print(results)
     else:
-        print("Can't get token for", username)
+        print("Can't get token for", constants.username)
     print("")
 
 
 def date_check(track):
     release_raw = track["album"]["release_date"]
-    release = datetime.datetime.strptime(release_raw.split("-")[0], "%Y")
-    now = datetime.datetime.now()
+    release = datetime.strptime(release_raw.split("-")[0], "%Y")
+    now = datetime.now()
 
     # Check if track was released in current year.
     # May be modified for January reviews.
@@ -158,8 +141,7 @@ def date_check(track):
 def read_playlist(playlist_id, username):
     """returns track_ids of a spotify playlist as list"""
 
-    client_credentials_manager = SpotifyClientCredentials(client_id="",  # placeholder value here
-                                                          client_secret="")  # placeholder value here
+    client_credentials_manager = SpotifyClientCredentials(constants.client_id, constants.client_secret)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
     results = sp.user_playlist(username, playlist_id)
@@ -167,6 +149,3 @@ def read_playlist(playlist_id, username):
     print(f"{len(ids)} IDs found in '{results['name']}'")
 
     return(ids)
-
-
-
