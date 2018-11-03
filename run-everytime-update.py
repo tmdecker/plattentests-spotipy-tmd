@@ -1,22 +1,21 @@
 from bs4 import BeautifulSoup
 import requests
 import pickle
-from parser_ import get_releases, sort_by_score, get_names, get_playlist
+from parser_ import get_names
 from spotify_api import get_IDs, create_playlist, add_tracks_to_playlist, update_playlist, read_playlist
-from tools import update_adw, get_weekly_filename_and_ID
+from tools import update_adw, get_weekly_filename_and_ID, add_to_playlist_archive
 import constants
 import os.path
 import pprint as pp
+from PlattentestsApi import PlattentestsApi
 
 
 major_update = update_adw()
 
 if major_update == True:
 	print("Running major update...")
-	## Parse plattentests.de and create playlist
-	links = get_releases()
-	links2, artists2 = sort_by_score(links)
-	playlist = get_playlist(links2, artists2)
+	plattentestsApi = PlattentestsApi()
+	playlist = plattentestsApi.getHighlightsFromLatestReview()
 	pp.pprint(playlist)
 
 	## Save playlist
@@ -31,8 +30,7 @@ if major_update == True:
 
 	## Create a new playlist on Spotify and add ID to archive
 	playlist_id = create_playlist(playlist_name)
-	# FIXME stefan: not working when file doesn't exist
-	# add_to_playlist_archive(playlist_id, filename)
+	add_to_playlist_archive(playlist_id, filename)
 
 	## Add tracks to new playlist
 	add_tracks_to_playlist(playlist_id, track_IDs)
