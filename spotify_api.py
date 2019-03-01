@@ -12,7 +12,8 @@ import constants
 def get_IDs(playlist):
     print("Searching spotify for tracks ...")
 
-    client_credentials_manager = SpotifyClientCredentials(constants.client_id,  constants.client_secret) 
+    client_credentials_manager = SpotifyClientCredentials(client_id=constants.client_id,
+                                                          client_secret=constants.client_secret)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
     IDs = []
@@ -73,16 +74,21 @@ def get_IDs(playlist):
 
 def create_playlist(playlist_name):
     '''Creates a new playlist for a user'''
+    username = constants.username
+    scope = 'user-follow-modify playlist-modify'
+    client_id = constants.client_id
+    client_secret = constants.client_secret
+    redirect_uri = constants.redirect_uri
 
-    token = util.prompt_for_user_token(constants.username, constants.scope, constants.client_id, constants.client_secret, redirect_uri=constants.redirect_uri)
+    token = util.prompt_for_user_token(username, scope, client_id, client_secret, redirect_uri=redirect_uri)
 
     if token:
         sp = spotipy.Spotify(auth=token)
         sp.trace = False
-        playlists = sp.user_playlist_create(constants.username, playlist_name)
+        playlists = sp.user_playlist_create(username, playlist_name)
 
     else:
-        print("Can't get token for", constants.username)
+        print("Can't get token for", username)
         
     playlist_id = playlists["id"]
     print("")
@@ -94,15 +100,21 @@ def add_tracks_to_playlist(playlist_id, track_ids):
 
     print("Adding tracks to playlist %s on spotify." % playlist_id)
 
-    token = util.prompt_for_user_token(constants.username, constants.scope, constants.client_id, constants.client_secret, redirect_uri=constants.redirect_uri)
+    username = constants.username #placeholder value here
+    scope = 'user-follow-modify playlist-modify'
+    client_id = constants.client_id #placeholder value here
+    client_secret = constants.client_secret #placeholder value here
+    redirect_uri = constants.redirect_uri
+
+    token = util.prompt_for_user_token(username, scope, client_id, client_secret, redirect_uri=redirect_uri)
 
     if token:
         sp = spotipy.Spotify(auth=token)
         sp.trace = False
-        results = sp.user_playlist_add_tracks(constants.username, playlist_id, track_ids)
+        results = sp.user_playlist_add_tracks(username, playlist_id, track_ids)
         print(results)
     else:
-        print("Can't get token for", constants.username)
+        print("Can't get token for", username)
     print("")
 
 
@@ -111,15 +123,21 @@ def update_playlist(playlist_id, track_ids):
 
     print("Updating playlist %s on spotify." % playlist_id)
 
-    token = util.prompt_for_user_token(constants.username, constants.scope, constants.client_id, constants.client_secret, redirect_uri=constants.redirect_uri)
+    username = constants.username #placeholder value here
+    scope = 'user-follow-modify playlist-modify'
+    client_id = constants.client_id #placeholder value here
+    client_secret = constants.client_secret #placeholder value here
+    redirect_uri = constants.redirect_uri
+
+    token = util.prompt_for_user_token(username, scope, client_id, client_secret, redirect_uri=redirect_uri)
 
     if token:
         sp = spotipy.Spotify(auth=token)
         sp.trace = False
-        results = sp.user_playlist_replace_tracks(constants.username, playlist_id, track_ids)  # update existing playlist
+        results = sp.user_playlist_replace_tracks(username, playlist_id, track_ids)  # update existing playlist
         print(results)
     else:
-        print("Can't get token for", constants.username)
+        print("Can't get token for", username)
     print("")
 
 
@@ -141,7 +159,8 @@ def date_check(track):
 def read_playlist(playlist_id, username):
     """returns track_ids of a spotify playlist as list"""
 
-    client_credentials_manager = SpotifyClientCredentials(constants.client_id, constants.client_secret)
+    client_credentials_manager = SpotifyClientCredentials(client_id=constants.client_id,
+                                                          client_secret=constants.client_secret)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
     results = sp.user_playlist(username, playlist_id)
