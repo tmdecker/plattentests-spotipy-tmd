@@ -21,14 +21,16 @@ Furthermore, these standard python libraries are being used: **requests, pickle,
 ### Getting started
 
 1. Register the Spotify Web App at https://developer.spotify.com/documentation/web-api/.
-
-2. Add the Spotify credentials to the `spotipy_api.py` file. Those include: **username, client_id,** and **client_secret**. Spotify will provide client_id and client_secret after registering the app. Also, add a **redirect_uri**, e.g. http://localhost:8888/callback/.
-
-3. Create a playlist on Spotify and save its ID which is the cryptic combination of letters and numbers at the end of the Spotify URI (right click on playlist in the Spotify Desktop App -> Share -> Copy Spotify URI). Use this ID as "master" playlist ID and add it to the `run-everytime-update.py` file. The master playlist will be constantly updated. Additionally, an "archive" playlist is created weekly.
-
-4. Execute  `run-everytime-update.py`. When running the app for the first time, the Spotify API will ask you to login. Please see https://github.com/plamere/spotipy for more details.
-
-5. Please note that two .pickle files will be created in your folder:
+   
+2. Duplicate `constants.py.example` and rename it to `constants.py`
+   
+3. Add the Spotify credentials to the `constants.py` file. Those include: **username, client_id,** and **client_secret**. Spotify will provide client_id and client_secret after registering the app. Also, add a **redirect_uri**, e.g. http://localhost:8888/callback/.
+   
+4. Create a playlist on Spotify and save its ID which is the cryptic combination of letters and numbers at the end of the Spotify URI (right click on playlist in the Spotify Desktop App -> Share -> Copy Spotify URI). Use this ID as "master" playlist ID and add it to the `constants.py` file. The master playlist will be constantly updated. Additionally, an "archive" playlist is created weekly.
+   
+5. Execute  `run-everytime-update.py`. When running the app for the first time, the Spotify API will ask you to login. Please see https://github.com/plamere/spotipy for more details.
+   
+6. Please note that two .pickle files will be created in your folder:
 
    `adw_current.pickle` stores the current album of the week
 
