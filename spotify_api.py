@@ -124,7 +124,7 @@ def update_playlist(playlist_id, track_ids):
     print("Updating playlist %s on spotify." % playlist_id)
 
     username = constants.username #placeholder value here
-    scope = 'user-follow-modify playlist-modify'
+    scope = constants.scope
     client_id = constants.client_id #placeholder value here
     client_secret = constants.client_secret #placeholder value here
     redirect_uri = constants.redirect_uri
