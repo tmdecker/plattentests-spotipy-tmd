@@ -49,7 +49,7 @@ def add_to_playlist_archive(playlist_id, playlist_filename):
         pickle.dump(playlist_archive, pickling_on)
         pickling_on.close()
     else:
-        pickling_on = open("playlist_archive","wb")
+        pickling_on = open("playlist_archive.pickle","wb")
         playlist_archive = {playlist_filename[:-7]: playlist_id}
         pickle.dump(playlist_archive, pickling_on)
         pickling_on.close()
