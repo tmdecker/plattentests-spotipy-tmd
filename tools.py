@@ -76,6 +76,8 @@ def update_adw():
         pickle_off = open(filename,"rb")
         adw_old = pickle.load(pickle_off)
         adw_new = PlattentestsApi.getAlbumOfTheWeek()
+        print("Current ADW: " + adw_new)
+        print("Old ADW: " + adw_old)
 
         if adw_old == adw_new:
             print("No new adw. Initiate minor update!")
