@@ -1,12 +1,12 @@
-from spotipy.oauth2 import SpotifyClientCredentials
+from datetime import datetime
+
 import spotipy
 import spotipy.util as util
-import pprint as pp
-from datetime import datetime
-from tools import trailing_space
+from spotipy.oauth2 import SpotifyClientCredentials
 from termcolor import colored
-import json
+
 import constants
+from tools import trailing_space
 
 
 def get_IDs(playlist):
@@ -23,7 +23,7 @@ def get_IDs(playlist):
         # Titles are truncated after brackets because this is a major
         # source of title mismatch during Spotify search.
         # Brackets at beginning of title are not truncated.
-        if track.split("-")[1][1] == ("("):
+        if track.split(" - ")[1][1] == ("("):
             q = track.split("(")[0]+"("+track.split("(")[1]
         else:
             q = track.split("(")[0]
