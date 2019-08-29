@@ -1,12 +1,12 @@
-from spotipy.oauth2 import SpotifyClientCredentials
+from datetime import datetime
+
 import spotipy
 import spotipy.util as util
-import pprint as pp
-from datetime import datetime
-from tools import trailing_space
+from spotipy.oauth2 import SpotifyClientCredentials
 from termcolor import colored
-import json
+
 import constants
+from tools import trailing_space
 
 
 def get_IDs(playlist):
@@ -23,7 +23,7 @@ def get_IDs(playlist):
         # Titles are truncated after brackets because this is a major
         # source of title mismatch during Spotify search.
         # Brackets at beginning of title are not truncated.
-        if track.split("-")[1][1] == ("("):
+        if track.split(" - ")[1][1] == ("("):
             q = track.split("(")[0]+"("+track.split("(")[1]
         else:
             q = track.split("(")[0]
@@ -75,7 +75,7 @@ def get_IDs(playlist):
 def create_playlist(playlist_name):
     '''Creates a new playlist for a user'''
     username = constants.username
-    scope = 'user-follow-modify playlist-modify'
+    scope = constants.scope
     client_id = constants.client_id
     client_secret = constants.client_secret
     redirect_uri = constants.redirect_uri
@@ -85,7 +85,7 @@ def create_playlist(playlist_name):
     if token:
         sp = spotipy.Spotify(auth=token)
         sp.trace = False
-        playlists = sp.user_playlist_create(username, playlist_name)
+        playlists = sp.user_playlist_create(username, playlist_name, False)
 
     else:
         print("Can't get token for", username)
@@ -101,7 +101,7 @@ def add_tracks_to_playlist(playlist_id, track_ids):
     print("Adding tracks to playlist %s on spotify." % playlist_id)
 
     username = constants.username #placeholder value here
-    scope = 'user-follow-modify playlist-modify'
+    scope = constants.scope
     client_id = constants.client_id #placeholder value here
     client_secret = constants.client_secret #placeholder value here
     redirect_uri = constants.redirect_uri
@@ -124,7 +124,7 @@ def update_playlist(playlist_id, track_ids):
     print("Updating playlist %s on spotify." % playlist_id)
 
     username = constants.username #placeholder value here
-    scope = 'user-follow-modify playlist-modify'
+    scope = constants.scope
     client_id = constants.client_id #placeholder value here
     client_secret = constants.client_secret #placeholder value here
     redirect_uri = constants.redirect_uri
